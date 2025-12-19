@@ -4,7 +4,7 @@ import { Plus, Trash2 } from "lucide-react";
 
 export function GearGrid() {
   const { allSets, activeTab, addSet, removeSet } = useGearStore();
-  const SLOTS = ["main","sub","ranged","ammo","head","neck","ear1","ear2","body","hands","ring1","ring2","back","waist","legs","feet"];
+  const SLOTS = ["main","sub","range","ammo","head","neck","ear1","ear2","body","hands","ring1","ring2","back","waist","legs","feet"];
 
   const variants = Object.keys(allSets)
     .filter(name => name.split('.')[0] === activeTab)
