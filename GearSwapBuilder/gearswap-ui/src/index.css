@@ -19,6 +19,11 @@
   --active-text: #ffffff;
 }
 
+:root {
+  --brand: #eab308;
+  --brand-rgb: 234, 179, 8;
+}
+
 [data-theme='dark'] {
   background-color: var(--background) !important;
 }
@@ -78,27 +83,35 @@
 
 /* --- 4. INTERACTION & FINGERS --- */
 
-.ff-interactive {
-  cursor: pointer !important;
-  position: relative !important;
-  transition: all 0.1s ease-in-out;
-}
-
-/* The Finger - Only shows in FFXI mode */
 [data-theme='ffxi'] .ff-interactive:hover::before {
   content: "👉" !important;
   position: absolute;
   left: -28px;
   top: 50%;
-  transform: translateY(-50%);
+  /* Added translateZ(10px) to force it to the very front layer */
+  transform: translateY(-50%) translateZ(10px);
   font-size: 16px;
-  display: block !important; /* Forces it back on */
+  display: block !important;
   animation: ff-finger-wiggle 0.4s infinite alternate;
+  /* Higher z-index to clear the border/shadow layer */
+  z-index: 100 !important;
+}
+
+/* Add this to the parent to allow the 3D layer trick to work */
+.ff-interactive {
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 @keyframes ff-finger-wiggle {
   from { transform: translateY(-50%) translateX(0); }
   to { transform: translateY(-50%) translateX(-4px); }
+}
+
+.ff-grid-container, 
+[role="grid"],
+.max-w-4xl {
+  overflow: visible !important;
 }
 
 [data-theme='ffxi'] .ff-interactive:hover {
@@ -127,4 +140,82 @@
 /* Ensure parents don't clip the finger icons */
 main, .group\/section, #root {
   overflow: visible !important;
+}
+
+/* Dialog Specifics */
+[data-theme='ffxi'] [role='dialog'] {
+  border: 1px solid #000 !important;
+  box-shadow: inset 1px 1px 0px #fff, inset -1px -1px 0px #000, 8px 8px 0px rgba(0,0,0,0.5) !important;
+  border-radius: 0px !important;
+}
+
+[data-theme='ffxi'] [role='dialog'] input {
+  background-color: #000044 !important; /* Slightly darker than navy */
+  border: 1px solid #fff !important;
+  border-radius: 0px !important;
+}
+
+/* Ensure the submit button in the popup gets the FFXI nudge */
+[data-theme='ffxi'] [role='dialog'] button[type='submit'] {
+  border: 1px solid #fff;
+}
+
+/* Default "Create Set" button styling in the Dialog */
+.dialog-submit-btn {
+  @apply transition-all duration-200;
+  border-radius: 9999px; /* Rounded by default for Modern */
+}
+
+/* Force square corners ONLY in FFXI mode */
+[data-theme='ffxi'] .dialog-submit-btn {
+  border-radius: 0px !important;
+  box-shadow: inset 1px 1px 0px #fff, inset -1px -1px 0px #000 !important;
+  border: 1px solid #000 !important;
+}
+
+[data-theme='dark'] .dialog-submit-btn {
+  /* Change from 9999px to match your app's rounding (e.g., 8px or 12px) */
+  border-radius: 8px !important; 
+}
+
+[data-theme='ffxi'] [role='dialog'] {
+  overflow: visible !important;
+}
+
+/* Specific positioning for buttons inside the Dialog */
+[data-theme='ffxi'] [role='dialog'] .ff-interactive:hover::before {
+  left: -32px; /* Pull it slightly further left so it doesn't overlap the border */
+  content: "👉" !important;
+}
+
+/* --- 6. FFXI COMMAND/SEARCH OVERRIDES --- */
+
+/* Force search input and results to White for FFXI theme */
+[data-theme='ffxi'] [cmdk-input],
+[data-theme='ffxi'] [cmdk-item],
+[data-theme='ffxi'] [cmdk-group-heading],
+[data-theme='ffxi'] [cmdk-empty] {
+  color: #ffffff !important;
+}
+
+/* Specific logic for the SELECTED item in FFXI (Black text on Gold) */
+[data-theme='ffxi'] [cmdk-item][aria-selected="true"] {
+  background-color: var(--brand-color) !important; /* Gold */
+  color: #000000 !important; /* Black text */
+  text-shadow: none !important;
+}
+
+/* Search Icon and Placeholder for FFXI */
+[data-theme='ffxi'] [cmdk-input-wrapper] svg {
+  color: #ffffff !important;
+}
+
+[data-theme='ffxi'] [cmdk-input]::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Ensure the dropdown window itself uses the Navy background */
+[data-theme='ffxi'] [cmdk-root],
+[data-theme='ffxi'] [role='listbox'] {
+  background-color: var(--window-bg) !important;
 }

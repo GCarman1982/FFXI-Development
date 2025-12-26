@@ -35,34 +35,3 @@ export function ThemeToggle() {
     </Button>
   );
 }
-
-
-
-// import { Monitor, Palette } from "lucide-react";
-// import { Button } from "@/components/ui/button";
-// import { useGearStore } from "@/store/useGearStore";
-
-// export function ThemeToggle() {
-//   const { theme, setTheme } = useGearStore();
-
-//   return (
-//     <Button
-//       variant="ghost"
-//       size="sm"
-//       onClick={() => setTheme(theme === "dark" ? "ffxi" : "dark")}
-//       className="flex items-center gap-2 text-zinc-400 hover:text-lua-blue transition-colors"
-//     >
-//       {theme === "dark" ? (
-//         <>
-//           <Monitor className="w-4 h-4" />
-//           <span className="text-[10px] font-bold uppercase tracking-wider">Studio Dark</span>
-//         </>
-//       ) : (
-//         <>
-//           <Palette className="w-4 h-4 text-white" />
-//           <span className="text-[10px] font-bold uppercase tracking-wider text-white">FFXI Blue</span>
-//         </>
-//       )}
-//     </Button>
-//   );
-// }

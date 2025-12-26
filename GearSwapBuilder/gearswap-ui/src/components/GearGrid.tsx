@@ -1,10 +1,16 @@
+import { useState } from "react";
 import { useGearStore } from "@/store/useGearStore";
 import { SlotPicker } from "./SlotPicker";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2 } from "lucide-react";
+import { Trash2, Eraser } from "lucide-react"; 
+import { AddVariantDialog } from "./AddVariantDialog";
+import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 
 export function GearGrid() {
-  const { allSets, activeTab, addSet, removeSet } = useGearStore();
+  const { allSets, activeTab, removeSet, clearSet } = useGearStore();
+  
+  // Only need state for the Delete dialog now
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   const SLOTS = [
     "main", "sub", "range", "ammo",
@@ -26,28 +32,42 @@ export function GearGrid() {
         return (
           <div key={setName} className="space-y-4 group/section">
             <div className="flex items-center gap-3">
-              {/* --- HEADER --- */}
               <div className="ff-interactive flex items-center gap-1 cursor-pointer">
-  <h2 className="text-[11px] font-black uppercase tracking-[0.3em] select-none">
-    <span className="text-operator">sets.</span>
-    <span className="text-lua-orange">{base}</span>
-    <span className="text-lua-green">{variantSuffix}</span>
-  </h2>
-</div>
+                <h2 className="text-[11px] font-black uppercase tracking-[0.3em] select-none">
+                  <span className="text-operator">sets.</span>
+                  <span className="text-lua-orange">{base}</span>
+                  <span className="text-lua-green">{variantSuffix}</span>
+                </h2>
+              </div>
 
               <div className="h-[1px] flex-1 bg-operator/10" />
 
-              {/* Variant Trash Button */}
-              {setName.includes('.') && (
+              <div className="flex items-center gap-1 opacity-0 group-hover/section:opacity-100 transition-all">
+                
+                {/* One-click Clear Gear Set */}
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => { if (confirm(`Delete set "${setName}"?`)) removeSet(setName); }}
-                  className="w-8 h-8 text-operator hover:text-red-500 hover:bg-red-500/10 opacity-0 group-hover/section:opacity-100 transition-all"
+                  onClick={() => clearSet(setName)} // Direct call, no dialog
+                  className="w-8 h-8 text-operator hover:text-brand hover:bg-brand/10 transition-colors"
+                  title="Clear all slots"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Eraser className="w-4 h-4" />
                 </Button>
-              )}
+
+                {/* Themed Delete Trigger */}
+                {setName.includes('.') && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setDeleteTarget(setName)} 
+                    className="w-8 h-8 text-operator hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                    title="Delete variant"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -59,22 +79,22 @@ export function GearGrid() {
         );
       })}
 
-      {/* --- ADD CUSTOM VARIANT ACTION (NO CIRCLE) --- */}
-      <Button
-        variant="outline"
-        onClick={() => {
-          const sub = prompt(`Enter custom variant name for ${activeTab}:`);
-          // Just pass 'sub' directly to keep the casing (e.g., Sphere)
-          if (sub) addSet(`${activeTab}.${sub}`);
+      <div className="mt-4">
+        <AddVariantDialog />
+      </div>
+
+      <DeleteConfirmDialog 
+        open={!!deleteTarget}
+        onOpenChange={(open) => !open && setDeleteTarget(null)}
+        onConfirm={() => {
+          if (deleteTarget) {
+            removeSet(deleteTarget);
+            setDeleteTarget(null);
+          }
         }}
-        /* Added border-dashed and ff-interactive for the classic hover feel */
-        className="ff-window ff-interactive group flex items-center justify-center gap-2 w-full h-14 border-dashed border-operator/20 bg-transparent transition-all mt-4 hover:border-brand/50"
-      >
-        <Plus className="w-4 h-4 text-operator group-hover:text-brand transition-colors" />
-        <span className="text-[10px] font-bold text-operator uppercase tracking-[0.2em] group-hover:text-brand transition-colors">
-          Add Custom {activeTab} Variant
-        </span>
-      </Button>
+        title="Delete Set Variant"
+        itemName={deleteTarget || ""}
+      />
     </div>
   );
 }

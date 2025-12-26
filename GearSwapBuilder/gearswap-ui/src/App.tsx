@@ -4,8 +4,15 @@ import { GearGrid } from "./components/GearGrid";
 import { LuaPreview } from "./components/LuaPreview";
 import { useGearStore } from "./store/useGearStore";
 
+import ITEM_DATA from "@/data/items.json";
+
 export default function App() {
   const theme = useGearStore((state) => state.theme);
+  const initializeItems = useGearStore(s => s.initializeItems);
+
+  useEffect(() => {
+    initializeItems(ITEM_DATA);
+  }, []);
 
   // Sync the Zustand theme state with the HTML data-attribute
   useEffect(() => {
