@@ -31,7 +31,7 @@ export function SlotPicker({ slot, setName }: { slot: string; setName: string })
           <div className={`
             ff-window ff-interactive flex flex-col p-3 min-h-[85px] h-full cursor-pointer transition-all duration-300
             ${isEquipped 
-              ? "border-brand bg-brand/10 scale-[1.02]" 
+              ? "border-brand bg-brand/10" 
               : "border-white/5 bg-black/40"}
           `}>
             <span className="text-[10px] font-black uppercase tracking-widest text-operator/60 transition-colors">
