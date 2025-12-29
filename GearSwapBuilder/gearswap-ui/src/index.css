@@ -28,7 +28,6 @@
   background-color: var(--background) !important;
 }
 
-/* Dark Mode UI Fixes */
 [data-theme='dark'] [cmdk-item],
 [data-theme='dark'] [cmdk-input] {
   color: #ffffff !important;
@@ -60,10 +59,12 @@
   letter-spacing: 0.05em;
 }
 
-.ff-window {
+@utility ff-window {
   background: var(--window-bg);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  @apply rounded-xl transition-all relative;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  position: relative;
   backface-visibility: hidden;
   transform: translateZ(0);
 }
@@ -75,32 +76,37 @@
   image-rendering: -webkit-optimize-contrast;
 }
 
-[data-theme='dark'] .ff-window:hover {
+/* --- 4. HOVER LOGIC (FIXED) --- */
+
+/* Normal Windows: Blue highlight */
+[data-theme='dark'] .ff-window:not([data-critical="true"]):hover {
   border-color: rgba(59, 130, 246, 0.5) !important;
   box-shadow: 0 0 12px rgba(59, 130, 246, 0.1);
   background-color: #27272a !important; 
 }
 
-/* Target only slot-specific text for Blue Hover in Dark Mode */
-[data-theme='dark'] .ff-window:hover span.text-operator\/60,
-[data-theme='dark'] .ff-window:hover .text-operator\/30,
-[data-theme='dark'] .ff-window:hover .text-white {
+/* Target specific text for Blue Hover in Dark Mode (Non-Critical only) */
+[data-theme='dark'] .ff-window:not([data-critical="true"]):hover span.text-operator\/60,
+[data-theme='dark'] .ff-window:not([data-critical="true"]):hover .text-operator\/30,
+[data-theme='dark'] .ff-window:not([data-critical="true"]):hover .text-white {
   color: var(--brand-color) !important;
   transition: color 0.2s ease;
 }
 
-/* Ensure Clear Slot text stays white/muted */
+/* Critical Windows: Stays red on hover */
+[data-theme='dark'] .ff-window[data-critical="true"]:hover {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+}
+
 [cmdk-item] span.opacity-70 {
   color: #ffffff !important;
   opacity: 0.7 !important;
 }
 
-/* --- EQUIPPED INNER GLOW FIX --- */
+/* --- 5. EQUIPPED INNER GLOW --- */
 [data-theme='ffxi'] .ff-window.border-brand {
-  box-shadow: 
-    inset 1px 1px 0px #fff, 
-    inset -1px -1px 0px #000,
-    inset 0 0 20px rgba(234, 179, 8, 0.45) !important;
+  box-shadow: inset 1px 1px 0px #fff, inset -1px -1px 0px #000, inset 0 0 20px rgba(234, 179, 8, 0.45) !important;
   background-color: #0000aa !important; 
   filter: brightness(1.1);
   transform: translateY(-1px) translateZ(0);
@@ -111,8 +117,7 @@
   background-color: rgba(59, 130, 246, 0.15) !important;
 }
 
-/* --- 4. INTERACTION & FINGERS --- */
-
+/* --- 6. INTERACTION & FINGERS --- */
 .ff-interactive {
   transform-style: preserve-3d;
   perspective: 1000px;
@@ -137,16 +142,10 @@
   to { transform: translateY(-50%) translate3d(-4px, 0, 10px); }
 }
 
-[data-theme='ffxi'] .ff-interactive:hover {
-  transform: translate3d(6px, 0, 0);
-}
+[data-theme='ffxi'] .ff-interactive:hover { transform: translate3d(6px, 0, 0); }
+[data-theme='dark'] .ff-interactive:hover { filter: brightness(1.2); }
 
-[data-theme='dark'] .ff-interactive:hover {
-  filter: brightness(1.2);
-}
-
-/* --- 5. TABS & ACTIVE STATES --- */
-
+/* --- 7. TABS & DIALOGS --- */
 [data-state='active'], [aria-selected="true"] {
   background-color: var(--brand-color) !important;
   color: var(--active-text) !important;
@@ -159,31 +158,46 @@
   border-radius: 2px !important;
 }
 
-main, .group\/section, #root, .ff-grid-container, [role="grid"], .max-w-4xl {
-  overflow: visible !important;
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-color) transparent;
 }
 
-/* Dialog Specifics */
+[role='dialog'] {
+  @apply ff-window;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 201;
+  outline: none;
+}
+
+[data-radix-portal] > div:first-child {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+}
+
 [data-theme='ffxi'] [role='dialog'] {
   border: 1px solid #000 !important;
   box-shadow: inset 1px 1px 0px #fff, inset -1px -1px 0px #000, 8px 8px 0px rgba(0,0,0,0.5) !important;
   border-radius: 0px !important;
-  overflow: visible !important;
 }
 
-[data-theme='ffxi'] [role='dialog'] input {
-  background-color: #000044 !important;
-  border: 1px solid #fff !important;
-  border-radius: 0px !important;
+[role='dialog'][data-critical="true"] { border-color: #ef4444 !important; }
+[data-theme='ffxi'] [role='dialog'][data-critical="true"] {
+  --window-bg: #440000;
+  background: var(--window-bg) !important;
+}
+
+/* --- 8. BUTTONS & INPUTS --- */
+.dialog-submit-btn { @apply transition-all duration-200; }
+
+[data-critical="true"] .dialog-submit-btn {
+  background-color: #ef4444 !important;
   color: white !important;
-}
-
-[data-theme='ffxi'] [role='dialog'] button[type='submit'] {
-  border: 1px solid #fff;
-}
-
-.dialog-submit-btn {
-  @apply transition-all duration-200;
 }
 
 [data-theme='ffxi'] .dialog-submit-btn {
@@ -192,45 +206,22 @@ main, .group\/section, #root, .ff-grid-container, [role="grid"], .max-w-4xl {
   border: 1px solid #000 !important;
 }
 
-[data-theme='dark'] .dialog-submit-btn {
-  border-radius: 8px !important; 
-}
-
-[data-theme='ffxi'] [role='dialog'] .ff-interactive:hover::before {
-  left: -32px;
-  content: "👉" !important;
-}
-
-/* --- 6. COMMAND/SEARCH OVERRIDES --- */
-
-/* Force search icon to white in both themes */
-[cmdk-input-wrapper] svg, 
-.lucide-search {
+/* --- 9. COMMAND & SEARCH --- */
+[cmdk-input-wrapper] svg, .lucide-search {
   color: #ffffff !important;
   stroke: #ffffff !important;
   opacity: 0.6 !important;
 }
 
-[data-theme='ffxi'] [cmdk-input],
-[data-theme='ffxi'] [cmdk-item],
-[data-theme='ffxi'] [cmdk-group-heading],
-[data-theme='ffxi'] [cmdk-empty] {
+[data-theme='ffxi'] [cmdk-input], [data-theme='ffxi'] [cmdk-item] {
   color: #ffffff !important;
-  -webkit-font-smoothing: none;
-  text-rendering: optimizeLegibility;
 }
 
 [data-theme='ffxi'] [cmdk-item][aria-selected="true"] {
   background-color: var(--brand-color) !important;
   color: #000000 !important;
-  text-shadow: none !important;
 }
 
-[data-theme='ffxi'] [cmdk-input]::placeholder {
-  color: rgba(255, 255, 255, 0.4) !important;
-}
+[data-theme='ffxi'] [cmdk-root] { background-color: var(--window-bg) !important; }
 
-[data-theme='ffxi'] [cmdk-root],
-[data-theme='ffxi'] [role='listbox'] {
-  background-color: var(--window-bg) !important;
-}
+button, .cursor-pointer, .ff-interactive { cursor: pointer !important; }

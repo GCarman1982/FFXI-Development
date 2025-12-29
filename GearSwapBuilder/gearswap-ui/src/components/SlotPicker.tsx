@@ -2,75 +2,100 @@ import React, { useState, useMemo } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandInput, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { useGearStore } from "@/store/useGearStore";
+import { cn } from "@/lib/utils";
 
 export function SlotPicker({ slot, setName }: { slot: string; setName: string }) {
   const { allSets, updateSlot, searchableItems } = useGearStore();
   const [search, setSearch] = useState("");
+  // 1. Add open state to control the popover manually
+  const [open, setOpen] = useState(false);
 
-  const selected = allSets[setName]?.[slot] || "";
+  const rawSelected = allSets[setName]?.[slot] || "";
+
+  const selected = useMemo(() => {
+    if (!rawSelected) return "";
+    if (typeof rawSelected === 'string') return rawSelected;
+    if (typeof rawSelected === 'object' && rawSelected !== null) {
+      return (rawSelected as any).name || "";
+    }
+    return "";
+  }, [rawSelected]);
+    
   const isEquipped = !!selected;
-
-  const allItemsForSlot = useMemo(() => {
-    return searchableItems[slot] || [];
-  }, [searchableItems, slot]);
-
-  const filteredItems = useMemo(() => {
-    const query = search.toLowerCase();
-    return allItemsForSlot
-      .filter((item: string) => !search || item.toLowerCase().includes(query))
-      .slice(0, 100);
-  }, [search, allItemsForSlot]);
 
   return (
     <div className="w-full h-full">
-      <Popover>
+      {/* 2. Bind open and onOpenChange to our state */}
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <div className={`
-            ff-window ff-interactive flex flex-col p-3 min-h-[85px] h-full cursor-pointer transition-all duration-300
-            ${isEquipped ? "border-brand bg-brand/10 border-brand" : "border-white/5 bg-black/40"}
-          `}>
-            {/* Added 'text-operator/60' back specifically for the CSS selector */}
-            <span className="text-[10px] font-black uppercase tracking-widest text-operator/60">
+          <div className={cn(
+            "ff-window ff-interactive flex flex-col p-3 min-h-[85px] h-full cursor-pointer transition-all relative !rounded-none border",
+            isEquipped 
+              ? "bg-brand/10 border-white/10" 
+              : "border-white/5 bg-black/40 hover:bg-white/5"
+          )}>
+            
+            <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
               {slot}
             </span>
 
-            <div className="flex-1 flex flex-col items-center justify-center w-full py-1">
-              <div className={`text-[12px] leading-tight text-center break-words px-1 line-clamp-2 ${isEquipped ? 'text-white font-bold' : 'text-operator/30 italic uppercase'}`}>
+            <div className="flex-1 flex items-center justify-center py-1">
+              <div className={cn(
+                "text-[12px] text-center line-clamp-2",
+                isEquipped ? 'text-white font-bold' : 'text-white/20 italic uppercase'
+              )}>
                 {selected || "None"}
               </div>
             </div>
 
-            {isEquipped && <div className="absolute inset-y-0 left-0 w-1 bg-brand" />}
+            {isEquipped && (
+              <div 
+                className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[40%] bg-brand shadow-[2px_0_10px_rgba(var(--brand-rgb),0.8)]" 
+                style={{ borderRadius: '0 2px 2px 0' }}
+              />
+            )}
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="w-[240px] p-0 ff-window border-none shadow-2xl z-50" align="start" sideOffset={8}>
-          {/* Forces search icon to white without affecting children blue hover logic */}
+        <PopoverContent className="w-[240px] p-0 ff-window bg-black/90 backdrop-blur-xl border-none shadow-2xl z-50 overflow-hidden !rounded-none">
           <Command shouldFilter={false} className="bg-transparent text-white">
             <CommandInput 
               placeholder={`Search ${slot}...`} 
               value={search} 
               onValueChange={setSearch}
-              className="h-9 text-xs border-none focus:ring-0 text-white" 
+              className="h-10 text-xs border-none bg-white/5 text-white placeholder:text-white/30" 
             />
-            <CommandList className="max-h-64 custom-scrollbar overflow-y-auto">
-              <CommandEmpty className="p-4 text-xs text-center text-white/50">No items found.</CommandEmpty>
+            <CommandList className="max-h-64 custom-scrollbar">
+              <CommandEmpty className="p-4 text-xs italic text-white/50 text-center">No items found.</CommandEmpty>
               <CommandGroup>
                 <CommandItem 
-                  onSelect={() => { updateSlot(setName, slot, ""); setSearch(""); }}
-                  className="ff-interactive relative text-xs py-2 px-8 cursor-pointer border-b border-white/5 mb-1"
+                  onSelect={() => { 
+                    updateSlot(setName, slot, ""); 
+                    setSearch(""); 
+                    // 3. Close popover on clear
+                    setOpen(false); 
+                  }} 
+                  className="ff-interactive text-xs py-2.5 px-8 text-red-400 hover:bg-red-500/10 border-b border-white/5"
                 >
-                  <span className="opacity-70">[ Clear Slot ]</span>
+                  [ Clear Slot ]
                 </CommandItem>
-                {filteredItems.map((item: string) => (
-                  <CommandItem 
-                    key={item} 
-                    onSelect={() => { updateSlot(setName, slot, item); setSearch(""); }}
-                    className="ff-interactive relative text-xs py-2 px-8 cursor-pointer"
-                  >
-                    {item}
-                  </CommandItem>
-                ))}
+                {(searchableItems[slot] || [])
+                  .filter(item => !search || item.toLowerCase().includes(search.toLowerCase()))
+                  .slice(0, 100)
+                  .map(item => (
+                    <CommandItem 
+                      key={item} 
+                      onSelect={() => { 
+                        updateSlot(setName, slot, item); 
+                        setSearch(""); 
+                        // 4. Close popover on selection
+                        setOpen(false); 
+                      }} 
+                      className="ff-interactive text-xs py-2.5 px-8 text-white/80 hover:bg-brand/20 hover:text-white"
+                    >
+                      {item}
+                    </CommandItem>
+                  ))}
               </CommandGroup>
             </CommandList>
           </Command>

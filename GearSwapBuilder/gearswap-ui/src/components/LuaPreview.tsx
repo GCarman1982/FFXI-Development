@@ -1,6 +1,5 @@
 import { useGearStore } from "../store/useGearStore";
 
-// Canonical FFXI order to ensure the output is not scrambled
 const SLOT_ORDER = [
   "main", "sub", "range", "ammo",
   "head", "neck", "ear1", "ear2",
@@ -11,14 +10,18 @@ const SLOT_ORDER = [
 export function LuaPreview() {
   const { allSets, activeTab } = useGearStore();
 
-  const visibleSets = Object.entries(allSets).filter(([name]) =>
-    name === activeTab || name.startsWith(`${activeTab}.`)
-  );
+  // Filter: Show the specific active set AND any nested children of that set
+  const visibleSets = Object.entries(allSets).filter(([name]) => {
+    return name === activeTab || name.startsWith(`${activeTab}.`);
+  });
 
   return (
-    <div className="flex-1 w-full h-full p-6 font-mono text-[13px] overflow-auto custom-scrollbar bg-black/60 backdrop-blur-md">
-      <div className="mb-4 text-[10px] font-bold text-operator uppercase tracking-[0.2em]">
-        -- LUA OUTPUT
+    <div className="flex-1 w-full h-full p-6 font-mono text-[13px] overflow-auto custom-scrollbar border-l border-white/10
+                    bg-[#0a0a0c] 
+                    [[data-theme='ffxi']_&]:bg-[linear-gradient(180deg,#000080_0%,#000033_100%)]">
+      
+      <div className="mb-4 text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">
+        -- LUA OUTPUT ({activeTab})
       </div>
 
       {visibleSets.length > 0 ? (
@@ -27,33 +30,39 @@ export function LuaPreview() {
           const variant = vParts.length > 0 ? `.${vParts.join('.')}` : "";
 
           return (
-            <div key={setName} className="mb-6 select-all leading-[1.2]">
-              <div className="text-lua-operator">
-                sets.<span className="text-lua-orange">{base}</span>
-                <span className="text-lua-green">{variant}</span> = {"{"}
+            <div key={setName} className="mb-8 select-all leading-tight">
+              {/* Header: sets.precast.WS = { */}
+              <div className="text-zinc-400">
+                sets.<span className="text-amber-500">{base}</span>
+                <span className="text-emerald-500">{variant}</span> = {"{"}
               </div>
 
-              {/* Removed flex and gap. Using a simple grid for alignment */}
+              {/* Items: Preserved original pl-4 flex gap-1 spacing for both modes */}
               {SLOT_ORDER.map((slot) => {
-                const item = gear[slot] || (slot === 'range' ? gear['ranged'] : null);
-                if (!item || item === "None") return null;
+  // Only get the item if it explicitly exists in the gear object
+  const item = gear[slot] || (slot === 'range' ? gear['ranged'] : null);
+  
+  // If the item is missing, null, or empty string, don't render the line
+  if (!item || item === "None" || item === "empty" || item === "") return null;
 
-                return (
-                  <div key={slot} className="pl-6 py-[1px]">
-                    <span className="text-lua-operator">{slot}</span>
-                    <span className="text-lua-operator"> = </span>
-                    <span className="text-lua-green">"{item}"</span>
-                    <span className="text-lua-operator">,</span>
-                  </div>
-                );
-              })}
+  return (
+    <div key={slot} className="pl-4 flex gap-1 items-baseline">
+      <span className="text-sky-400">{slot}</span>
+      <span className="text-zinc-400">=</span>
+      <span className="text-emerald-400">"{item}"</span>
+      <span className="text-zinc-400">,</span>
+    </div>
+  );
+})}
 
-              <div className="text-lua-operator">{"}"}</div>
+              <div className="text-zinc-400">{"}"}</div>
             </div>
           );
         })
       ) : (
-        <div className="text-zinc-600 italic">No sets defined for this category.</div>
+        <div className="h-full flex items-center justify-center text-zinc-700 italic text-xs">
+          No sets found for "{activeTab}"
+        </div>
       )}
     </div>
   );
