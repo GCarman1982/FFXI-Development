@@ -66,7 +66,8 @@
     "productName": "GearSwap Studio",
     "win": {
       "target": "portable",
-      "artifactName": "GearSwapStudio-${version}.exe"
+      "artifactName": "GearSwapStudio-${version}.exe",
+      "icon": "public/ffxi_icon.ico"
     },
     "directories": {
       "output": "release"
