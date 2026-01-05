@@ -1,14 +1,13 @@
-import * as React from "react";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { PATH_ENABLED_ITEMS } from "@/constants/odyssey";
+import { ALL_PATH_ITEMS } from "@/lib/odyssey";
 
 interface OdysseyPathPickerProps {
   itemName: string;
   value?: string;
   onValueChange: (path: string) => void;
   // New prop to trigger closing the parent UI
-  onSelect?: () => void; 
+  onSelect?: () => void;
 }
 
 export function OdysseyPathPicker({
@@ -17,7 +16,7 @@ export function OdysseyPathPicker({
   onValueChange,
   onSelect,
 }: OdysseyPathPickerProps) {
-  const isOdyssey = PATH_ENABLED_ITEMS.some((item) => 
+  const isOdyssey = ALL_PATH_ITEMS.some((item) =>
     itemName.toLowerCase().includes(item)
   );
 

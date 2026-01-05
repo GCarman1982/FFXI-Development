@@ -5,7 +5,7 @@ export const ODYSSEY_WHITELIST = {
   A4: ["nyame"]
 } as const;
 
-const ALL_PATH_ITEMS = Object.values(ODYSSEY_WHITELIST).flat();
+export const ALL_PATH_ITEMS = Object.values(ODYSSEY_WHITELIST).flat();
 
-export const isOdysseyItem = (name: string) => 
+export const isOdysseyItem = (name: string) =>
   ALL_PATH_ITEMS.some(item => name.toLowerCase().includes(item));

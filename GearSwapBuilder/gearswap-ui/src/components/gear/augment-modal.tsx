@@ -1,9 +1,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { isOdysseyItem } from "@/lib/odyssey";
 import { ManualAugmentPicker } from "./manual-augment-picker";
-import { OdysseyPathPicker } from "./odyssey-path-picker"; // Import the component
+import { OdysseyPathPicker } from "./odyssey-path-picker";
 
 interface AugmentModalProps {
     item: {
@@ -40,7 +38,7 @@ export function AugmentModal({ item, isOpen, onOpenChange, onUpdate }: AugmentMo
                                 itemName={item.name}
                                 value={item.path}
                                 onValueChange={(v) => onUpdate({ ...item, path: v })}
-                                onSelect={() => onOpenChange(false)} 
+                                onSelect={() => onOpenChange(false)}
                             />
                         </div>
                     ) : (
