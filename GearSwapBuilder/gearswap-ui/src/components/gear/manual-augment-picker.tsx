@@ -70,9 +70,8 @@ function SortableAugment({ id, value, onRemove }: { id: string; value: string; o
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-1 bg-brand/10 border border-brand/30 px-2 py-1 text-[11px] text-brand font-bold touch-none transition-colors ${
-        isDragging ? "opacity-50 border-brand shadow-lg bg-brand/20" : ""
-      }`}
+      className={`flex items-center gap-1 bg-brand/10 border border-brand/30 px-2 py-1 text-[11px] text-brand font-bold touch-none transition-colors ${isDragging ? "opacity-50 border-brand shadow-lg bg-brand/20" : ""
+        }`}
     >
       <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing hover:text-white/80 mr-1">
         <GripVertical size={12} />
@@ -124,11 +123,28 @@ export function ManualAugmentPicker({ currentAugments, onUpdate }: ManualAugment
     if (!selectedStat || !newValue) return;
 
     const val = newValue.trim();
-    const displayValue = val.startsWith("+") || val.startsWith("-") ? val : `+${val}`;
 
-    // Replaces %+d or %d with the value
-    const formattedStat = selectedStat.replace(/%[+d]+/g, displayValue);
-    const finalString = formattedStat.replace(/\+\+/g, "+").trim();
+    // 2. Handle both %d (raw) and %+d (signed) placeholders
+    let formattedStat = selectedStat;
+
+    // Handle %+d: Force a sign (+ or -)
+    formattedStat = formattedStat.replace(/%\+d/g, () => {
+      // If user typed 10 -> +10. If user typed -5 -> -5.
+      if (val.startsWith("+") || val.startsWith("-")) return val;
+      return `+${val}`;
+    });
+
+    // Handle %d: Use raw value (usually stripped of leading +, but keeping -)
+    formattedStat = formattedStat.replace(/%d/g, () => {
+      // If template is just %d, we probably just want the number.
+      // But if the user typed "-5", we keep "-5".
+      return val;
+    });
+
+    // 3. Clean up double percent signs (escape sequence in C-style)
+    formattedStat = formattedStat.replace(/%%/g, "%");
+
+    const finalString = formattedStat.trim();
 
     // Prevent adding the exact same augment string twice
     if (!currentAugments.includes(finalString)) {
