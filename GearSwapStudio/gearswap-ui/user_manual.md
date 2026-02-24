@@ -5,7 +5,7 @@ Welcome to **GearSwap Studio**, a modern, visual suite for building and managing
 ## Installation & Updates
 Download the latest `GearSwapStudio-Setup-vX.X.X.exe` from the [GitHub Releases](https://github.com/GCarman1982/FFXI-Development/releases) page. Run the installer to add the application to your Desktop and Start Menu. 
 
-The Studio includes an **Auto-Updater**! Whenever a new feature or fix is released, the app will automatically download it in the background and update itself the next time you launch it.
+The Studio includes a manual **Update** feature! Whenever a new feature or fix is released, you can click the **Update** button (Refresh icon) in the top navigation bar to check for, download, and install the latest version.
 
 ---
 
@@ -23,7 +23,7 @@ The Studio is divided into three main zones:
 - **Final Set Review**: Before exporting, use this pane to verify that your `sets.idle.town` look exactly as intended.
 
 ### Themes & Help
-- **Classic Theme**: Switch between a Sleek Modern look and a classic FFXI (Blue Gradient) theme.
+- **Update Button**: Click the **Update** (Refresh icon) in the Top Navigation bar to manually check for new versions.
 - **Help Button**: If you're ever stuck, click the **Github Help** button in the Top Navigation bar to return to this manual.
 
 ---

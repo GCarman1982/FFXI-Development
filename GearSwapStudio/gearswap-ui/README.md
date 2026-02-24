@@ -39,7 +39,7 @@ For a comprehensive walkthrough on how to use the GearSwap Studio, please refer 
 
 1. Download the latest `GearSwapStudio-Setup-vX.X.X.exe` from the [GitHub Releases](https://github.com/GCarman1982/FFXI-Development/releases) page.
 2. Run the installer to add GearSwap Studio to your system.
-3. **Auto-Updates**: Once installed, GearSwap Studio will automatically download and install future updates in the background!
+3. **Updates**: GearSwap Studio will notify you when a new version is available! Simply click the **Update** button (Refresh icon) in the top navigation bar to check for and download future updates manually.
 
 ## Development
 
