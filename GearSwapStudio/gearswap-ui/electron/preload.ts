@@ -6,5 +6,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
-  // You can add more bridge functions here (like saving files)
+  onUpdaterEvent: (callback: (event: any, data: any) => void) => {
+    // Deliberately strip event as it includes `sender` 
+    ipcRenderer.on('updater-event', (event, data) => callback(event, data));
+  },
+  installUpdate: () => {
+    ipcRenderer.send('install-update');
+  }
 })

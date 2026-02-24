@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -34,7 +34,29 @@ function createWindow() {
   if (!process.env.VITE_DEV_SERVER_URL) {
     autoUpdater.checkForUpdatesAndNotify()
   }
+
+  // Auto-Updater Event Listeners
+  autoUpdater.on('update-available', (info) => {
+    win.webContents.send('updater-event', { type: 'update-available', info });
+  });
+
+  autoUpdater.on('download-progress', (progressObj) => {
+    win.webContents.send('updater-event', { type: 'download-progress', progress: progressObj });
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+    win.webContents.send('updater-event', { type: 'update-downloaded', info });
+  });
+
+  autoUpdater.on('error', (err) => {
+    win.webContents.send('updater-event', { type: 'error', error: err.message });
+  });
 }
+
+// IPC listener for triggering install
+ipcMain.on('install-update', () => {
+  autoUpdater.quitAndInstall();
+});
 
 app.whenReady().then(createWindow)
 

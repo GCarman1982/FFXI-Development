@@ -7,6 +7,7 @@ import { useGearStore } from "./store/useGearStore";
 import { useUIStore } from "./store/useUIStore";
 import { useItemDatabase } from "./lib/hooks/useItemDatabase";
 import { AugmentModal } from "./components/gear/augment-modal";
+import { UpdateProgress } from "./components/UpdateProgress";
 
 export default function App() {
   const { theme, isAugmentModalOpen, closeAugmentModal, modalTarget } = useUIStore();
@@ -19,7 +20,7 @@ export default function App() {
   }, [theme]);
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground">
+    <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground relative">
       <TopNav />
 
       {/* This container holds everything below the header */}
@@ -66,6 +67,7 @@ export default function App() {
           );
         })()
       }
+      <UpdateProgress />
     </div >
   );
 }
