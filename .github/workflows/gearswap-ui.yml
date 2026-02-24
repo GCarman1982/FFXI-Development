@@ -66,8 +66,8 @@ jobs:
           npm version $VERSION_TYPE -m "chore(release): %s [skip ci]"
 
           # Push the new commit and tag
-          git push
-          git push --tags
+          git push origin HEAD:${{ github.ref_name }}
+          git push origin --tags
 
       - name: Install dependencies
         run: npm install

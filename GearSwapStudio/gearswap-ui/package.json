@@ -1,7 +1,7 @@
 {
   "name": "gearswap-studio",
   "private": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A modern desktop application for visually creating, managing, and exporting FFXI GearSwap Lua files.",
   "repository": {
     "type": "git",
