@@ -1,12 +1,12 @@
 {
-  "name": "gearswap-ui",
+  "name": "gearswap-studio",
   "private": true,
   "version": "1.3.0",
-  "description": "A classic FFXI-style GearSwap set builder",
+  "description": "A modern desktop application for visually creating, managing, and exporting FFXI GearSwap Lua files.",
   "repository": {
     "type": "git",
     "url": "https://github.com/GCarman1982/Development.git",
-    "directory": "GearSwapBuilder/gearswap-ui"
+    "directory": "GearSwapStudio/gearswap-ui"
   },
   "author": "Quishwar",
   "type": "module",

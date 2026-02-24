@@ -7,7 +7,7 @@ on:
     tags:
       - 'v*'
     paths:
-      - 'GearSwapBuilder/gearswap-ui/**'
+      - 'GearSwapStudio/gearswap-ui/**'
   workflow_dispatch:
     inputs:
       version_type:
@@ -29,7 +29,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: GearSwapBuilder/gearswap-ui
+        working-directory: GearSwapStudio/gearswap-ui
 
     steps:
       - name: Check out Git repository
@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: GearSwapBuilder/gearswap-ui/package-lock.json
+          cache-dependency-path: GearSwapStudio/gearswap-ui/package-lock.json
 
       - name: Configure Git
         run: |

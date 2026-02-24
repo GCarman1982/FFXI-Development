@@ -129,7 +129,7 @@ export function TopNav() {
           <Button
             variant="ghost"
             className="ff-interactive text-[10px] uppercase font-bold tracking-widest text-zinc-400 hover:text-white"
-            onClick={() => window.open('https://github.com/GCarman1982/Development/blob/master/GearSwapBuilder/gearswap-ui/user_manual.md', '_blank')}
+            onClick={() => window.open('https://github.com/GCarman1982/Development/blob/master/GearSwapStudio/gearswap-ui/user_manual.md', '_blank')}
             title="User Manual"
           >
             <Github className="w-4 h-4 mr-2" />
