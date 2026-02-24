@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useGearStore } from "@/store/useGearStore";
-import { Download, Upload, Trash2, Swords, Search, X, Github } from "lucide-react";
+import { Download, Upload, Trash2, Swords, Search, X, Github, RefreshCw } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { parseLuaToSets } from "@/lib/luaImporter";
@@ -126,6 +126,15 @@ export function TopNav() {
         {/* Right Side: Actions */}
         <div className="flex items-center gap-3 shrink-0">
           <ThemeToggle />
+          <Button
+            variant="ghost"
+            className="ff-interactive text-[10px] uppercase font-bold tracking-widest text-zinc-400 hover:text-white"
+            onClick={() => window.electronAPI.checkForUpdates()}
+            title="Check for Updates"
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Update
+          </Button>
           <Button
             variant="ghost"
             className="ff-interactive text-[10px] uppercase font-bold tracking-widest text-zinc-400 hover:text-white"

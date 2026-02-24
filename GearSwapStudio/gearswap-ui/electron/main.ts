@@ -68,6 +68,10 @@ function createWindow() {
 }
 
 // IPC listener for triggering download and install
+ipcMain.on('check-for-updates', () => {
+  autoUpdater.checkForUpdatesAndNotify();
+});
+
 ipcMain.on('download-update', () => {
   autoUpdater.downloadUpdate();
 });

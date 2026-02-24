@@ -18,6 +18,7 @@ declare global {
             chrome: () => string;
             electron: () => string;
             onUpdaterEvent: (callback: (event: any, data: UpdaterEvent) => void) => void;
+            checkForUpdates: () => void;
             downloadUpdate: () => void;
             installUpdate: () => void;
         };
