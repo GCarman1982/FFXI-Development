@@ -17,7 +17,7 @@ export function ClearAllDialog() {
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 animate-in fade-in duration-200" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[400px] ff-window bg-ui-window border border-red-900/50 p-6 shadow-2xl z-50">
+        <Dialog.Content className="fixed inset-0 m-auto h-fit w-[400px] ff-window bg-ui-window border border-red-900/50 p-6 shadow-2xl z-50">
 
           <div className="flex items-start gap-4">
             <div className="flex-1">
