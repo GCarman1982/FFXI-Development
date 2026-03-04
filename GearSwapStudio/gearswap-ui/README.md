@@ -1,7 +1,12 @@
 # GearSwap Studio
-![Build Status](https://github.com/GCarman1982/Development/actions/workflows/gearswap-ui.yml/badge.svg)
+[![Build Status](https://github.com/Quishwar/FFXI-Development/actions/workflows/gearswap-ui.yml/badge.svg)](https://github.com/Quishwar/FFXI-Development/actions)
+[![Releases](https://img.shields.io/github/v/release/Quishwar/FFXI-Development?label=Release)](https://github.com/Quishwar/FFXI-Development/releases)
 
 GearSwap Studio is a modern, standalone desktop application designed to simplify the creation and management of GearSwap files for Final Fantasy XI (FFXI). It provides a sleek, visual, and interactive way to build gear sets, manage complex job-specific equipment configurations, and seamlessly export your setups directly into functional, ready-to-use Lua scripts—no coding experience necessary.
+
+## Try it Live! 🌐
+Don't want to download anything? You can use the fully functional web version of GearSwap Studio directly in your browser:
+👉 **[Launch GearSwap Studio Web App](https://quishwar.github.io/FFXI-Development/)**
 
 ## Features Overview
 
@@ -37,7 +42,11 @@ For a comprehensive walkthrough on how to use the GearSwap Studio, please refer 
 
 ## Installation & Updates
 
-1. Download the latest `GearSwapStudio-Setup-vX.X.X.exe` from the [GitHub Releases](https://github.com/GCarman1982/FFXI-Development/releases) page.
+**Option 1: Web App**  
+Simply navigate to the [Live Web App](https://quishwar.github.io/FFXI-Development/) in your browser. No installation required!
+
+**Option 2: Desktop App (Windows)**
+1. Download the latest `GearSwapStudio-Setup-vX.X.X.exe` from the [GitHub Releases](https://github.com/Quishwar/FFXI-Development/releases) page.
 2. Run the installer to add GearSwap Studio to your system.
 3. **Updates**: GearSwap Studio will notify you when a new version is available! Simply click the **Update** button (Refresh icon) in the top navigation bar to check for and download future updates manually.
 

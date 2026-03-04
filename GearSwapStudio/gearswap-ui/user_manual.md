@@ -2,10 +2,16 @@
 
 Welcome to **GearSwap Studio**, a modern, visual suite for building and managing your Final Fantasy XI gear sets. Whether you're a veteran player or new to GearSwap, this tool is designed to make your gear management as seamless as possible.
 
-## Installation & Updates
-Download the latest `GearSwapStudio-Setup-vX.X.X.exe` from the [GitHub Releases](https://github.com/GCarman1982/FFXI-Development/releases) page. Run the installer to add the application to your Desktop and Start Menu. 
+## Installation & Access
 
-The Studio includes a manual **Update** feature! Whenever a new feature or fix is released, you can click the **Update** button (Refresh icon) in the top navigation bar to check for, download, and install the latest version.
+### Option 1: Web App (No Install)
+The easiest way to use GearSwap Studio is directly in your browser. Just navigate to:
+👉 **[https://quishwar.github.io/FFXI-Development/](https://quishwar.github.io/FFXI-Development/)**
+
+### Option 2: Desktop App (Windows)
+Download the latest `GearSwapStudio-Setup-vX.X.X.exe` from the [GitHub Releases](https://github.com/Quishwar/FFXI-Development/releases) page. Run the installer to add the application to your Desktop and Start Menu. 
+
+The Desktop version includes a manual **Update** feature! Whenever a new feature or fix is released, you can click the **Update** button (Refresh icon) in the top navigation bar to check for, download, and install the latest version.
 
 ---
 
@@ -24,7 +30,7 @@ The Studio is divided into three main zones:
 
 ### Themes & Help
 - **Update Button**: Click the **Update** (Refresh icon) in the Top Navigation bar to manually check for new versions.
-- **Help Button**: If you're ever stuck, click the **Github Help** button in the Top Navigation bar to return to this manual.
+- **Help Button**: If you're ever stuck, click the **Help** button (GitHub icon) in the Top Navigation bar to return to this manual.
 
 ---
 
