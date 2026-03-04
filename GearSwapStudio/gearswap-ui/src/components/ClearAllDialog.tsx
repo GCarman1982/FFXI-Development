@@ -1,11 +1,9 @@
 import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { AlertTriangle, Trash2, X } from 'lucide-react';
-import { useGearStore } from '@/store/useGearStore';
+import { Trash2, X } from 'lucide-react';
 import { Button } from './ui/button';
 
 export function ClearAllDialog() {
-  const clearSets = useGearStore((state) => state);
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -22,9 +20,6 @@ export function ClearAllDialog() {
         <Dialog.Content className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[400px] ff-window bg-ui-window border border-red-900/50 p-6 shadow-2xl z-50">
 
           <div className="flex items-start gap-4">
-            <div className="p-3 bg-red-500/10 rounded-full">
-              <AlertTriangle className="w-6 h-6 text-red-500" />
-            </div>
             <div className="flex-1">
               <Dialog.Title className="text-lg font-black uppercase tracking-tighter text-zinc-100 light:text-slate-800">
                 Purge All Sets?

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden"; // Optional: npm install @radix-ui/react-visually-hidden
 import { useGearStore } from "../store/useGearStore";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
@@ -32,8 +31,8 @@ export function AddSetDialog() {
     };
 
     return (
-        <Dialog.Root 
-            open={open} 
+        <Dialog.Root
+            open={open}
             onOpenChange={(isOpen) => {
                 if (!isOpen) setSetName(""); // Clear text when clicking outside/ESC
                 setOpen(isOpen);
@@ -65,7 +64,7 @@ export function AddSetDialog() {
                             <Dialog.Title className="text-[10px] font-bold text-white ffxi:text-white uppercase tracking-[0.2em]">
                                 Create <span className="text-brand">New Gear Set</span>
                             </Dialog.Title>
-                            
+
                             {/* FIX: Resolves the Radix Warning by providing a description */}
                             <Dialog.Description className="sr-only">
                                 Enter a new GearSwap set path name to add it to your configuration.
@@ -85,7 +84,7 @@ export function AddSetDialog() {
                                     autoFocus
                                     className={cn(
                                         "w-full bg-black/40 border border-white/10 p-3 font-mono text-sm focus:border-brand/50 outline-none transition-all placeholder:text-white/10",
-                                        "text-white ffxi:text-white", 
+                                        "text-white ffxi:text-white",
                                         "classic:rounded-none dark:rounded-lg"
                                     )}
                                     placeholder="e.g. idle.town"
@@ -110,7 +109,7 @@ export function AddSetDialog() {
                                     type="submit"
                                     className={cn(
                                         "ff-interactive px-8 bg-brand font-bold text-[10px] uppercase tracking-widest transition-all shadow-[0_0_15px_rgba(var(--brand-rgb),0.4)] border-none",
-                                        "ffxi:!text-black !text-white", 
+                                        "ffxi:!text-black !text-white",
                                         "classic:rounded-none dark:rounded-lg"
                                     )}
                                 >

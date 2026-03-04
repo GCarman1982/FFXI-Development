@@ -67,7 +67,8 @@ pnpm-debug.log*
 *.tsbuildinfo
 
 # Linting
-lint_*
+eslint_*
+tsc_*
 *_lint.txt
 *_lint.json
 lint.debug.txt

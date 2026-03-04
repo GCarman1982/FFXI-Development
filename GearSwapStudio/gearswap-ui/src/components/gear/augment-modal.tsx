@@ -4,16 +4,13 @@ import { isOdysseyItem } from "@/lib/odyssey";
 import { ManualAugmentPicker } from "./manual-augment-picker";
 import { OdysseyPathPicker } from "./odyssey-path-picker";
 
+import { EquippedItem } from "@/store/useGearStore";
+
 interface AugmentModalProps {
-    item: {
-        name: string;
-        path?: string;
-        rank?: number;
-        augments?: string[]
-    };
+    item: EquippedItem;
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
-    onUpdate: (data: any) => void;
+    onUpdate: (data: EquippedItem) => void;
 }
 
 export function AugmentModal({ item, isOpen, onOpenChange, onUpdate }: AugmentModalProps) {

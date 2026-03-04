@@ -5,7 +5,7 @@ export function useItemSearch(slot: string) {
     const [search, setSearch] = useState("");
     const searchableItems = useGearStore((state) => state.searchableItems);
 
-    const itemsForSlot = searchableItems[slot] || [];
+    const itemsForSlot = useMemo(() => searchableItems[slot] || [], [searchableItems, slot]);
 
     const filteredItems = useMemo(() => {
         if (!search) return itemsForSlot.slice(0, 80);

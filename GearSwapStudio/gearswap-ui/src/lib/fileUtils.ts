@@ -7,7 +7,7 @@ export async function saveStringToFile(content: string, suggestedName: string, m
   // 1. Try Modern File System Access API
   if ('showSaveFilePicker' in window) {
     try {
-      // @ts-ignore - types for window.showSaveFilePicker might not be fully available in all setups
+      // @ts-expect-error - types for window.showSaveFilePicker might not be fully available in all setups
       const handle = await window.showSaveFilePicker({
         suggestedName,
         types: [{

@@ -24,18 +24,24 @@ export function ExportPreviewDialog({
 
     const buttonBg = theme === 'ffxi' ? 'bg-[#9c7b00] hover:bg-[#856900]' : 'bg-brand hover:bg-brand/90';
 
-    // Reset code and scroll to top when dialog opens
+    const [prevInitialCode, setPrevInitialCode] = useState(initialCode);
+
+    if (initialCode !== prevInitialCode) {
+        setPrevInitialCode(initialCode);
+        setCode(initialCode);
+    }
+
     useEffect(() => {
         if (open) {
-            setCode(initialCode);
             // Small timeout to ensure render
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 if (textareaRef.current) {
                     textareaRef.current.scrollTop = 0;
                 }
             }, 0);
+            return () => clearTimeout(timeoutId);
         }
-    }, [open, initialCode]);
+    }, [open]);
 
     const handleSave = async () => {
         await saveStringToFile(code, suggestedFileName);

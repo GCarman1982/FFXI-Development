@@ -5,7 +5,7 @@
   "description": "A modern desktop application for visually creating, managing, and exporting FFXI GearSwap Lua files.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GCarman1982/FFXI-Development.git",
+    "url": "https://github.com/Quishwar/FFXI-Development.git",
     "directory": "GearSwapStudio/gearswap-ui"
   },
   "author": "Quishwar",
@@ -87,7 +87,7 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "GCarman1982",
+        "owner": "Quishwar",
         "repo": "FFXI-Development",
         "releaseType": "release"
       }

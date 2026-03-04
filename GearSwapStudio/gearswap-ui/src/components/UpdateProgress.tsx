@@ -10,7 +10,7 @@ export function UpdateProgress() {
     useEffect(() => {
         if (!window.electronAPI) return;
 
-        window.electronAPI.onUpdaterEvent((_event: any, data: UpdaterEvent) => {
+        window.electronAPI.onUpdaterEvent((_event: unknown, data: UpdaterEvent) => {
             if (data.type === 'log') {
                 console.log('[AutoUpdater]', data.message);
             } else if (data.type === 'update-available') {

@@ -9,7 +9,7 @@ import {
 import { AddSetDialog } from "./AddSetDialog";
 import { cleanSetPath } from "@/lib/utils";
 
-const ICON_MAP: Record<string, { icon: any; color: string }> = {
+const ICON_MAP: Record<string, { icon: React.ElementType; color: string }> = {
     engaged: { icon: Swords, color: 'text-red-400' },
     weapons: { icon: Box, color: 'text-orange-400' },
     precast: { icon: Zap, color: 'text-yellow-400' },
@@ -39,12 +39,12 @@ export function Sidebar() {
     }, [allSets, searchTerm]);
 
     const derivedCategories = useMemo(() => {
-        const categories: Record<string, { label: string; icon: any; color: string }> = {};
+        const categories: Record<string, { label: string; icon: React.ElementType; color: string }> = {};
 
         Object.keys(filteredSets).forEach(path => {
             // Standardize path for root detection
             const cleanPath = cleanSetPath(path);
-            const root = cleanPath.split(/[.\[]/)[0];
+            const root = cleanPath.split(/[.[\]]/)[0];
 
             if (!categories[root] && root !== "") {
                 const config = ICON_MAP[root] || { icon: Folder, color: 'text-zinc-500' };

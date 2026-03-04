@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
-  onUpdaterEvent: (callback: (event: any, data: any) => void) => {
+  onUpdaterEvent: (callback: (event: unknown, data: unknown) => void) => {
     // Deliberately strip event as it includes `sender` 
     ipcRenderer.on('updater-event', (event, data) => callback(event, data));
   },

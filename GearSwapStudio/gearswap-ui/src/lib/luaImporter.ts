@@ -33,7 +33,7 @@ export const parseLuaToSets = (luaText: string): ParseResult => {
   const logs: ImportLog[] = [];
 
   const cleanLua = luaText.replace(/--.*$/gm, "");
-  const setFinder = /sets((?:[\.\[]['"]?[\w\d_ \-\+:]+['"]?\]?)+)\s*=\s*/g;
+  const setFinder = /sets((?:[.[]['"]?[\w\d_ \-+:]+['"]?\]?)+)\s*=\s*/g;
 
   let match;
   while ((match = setFinder.exec(cleanLua)) !== null) {
@@ -46,7 +46,7 @@ export const parseLuaToSets = (luaText: string): ParseResult => {
     const remainingText = cleanLua.substring(startIndex).trim();
 
     if (remainingText.startsWith('set_combine')) {
-      const baseSetMatch = remainingText.match(/set_combine\s*\(\s*sets((?:[\.\[]['"]?[\w\d_ \-\+:]+['"]?\]?)+)/);
+      const baseSetMatch = remainingText.match(/set_combine\s*\(\s*sets((?:[.[]['"]?[\w\d_ \-+:]+['"]?\]?)+)/);
 
       // 3. Capture the base set relationship
       if (baseSetMatch) {
@@ -78,7 +78,7 @@ export const parseLuaToSets = (luaText: string): ParseResult => {
       }
     }
     else if (remainingText.startsWith('sets')) {
-      const pointerMatch = remainingText.match(/^sets((?:[\.\[]['"]?[\w\d_ \-\+:]+['"]?\]?)+)/);
+      const pointerMatch = remainingText.match(/^sets((?:[.[]['"]?[\w\d_ \-+:]+['"]?\]?)+)/);
       if (pointerMatch) {
         const sourcePath = pointerMatch[1].trim().replace(/^\./, "");
         if (sets[sourcePath]) {
@@ -116,13 +116,13 @@ function parseGearBlock(block: string): GearSet {
   // Handles nested braces for augments correctly
   const tableRegex = /([\w\d_]+)\s*=\s*\{([^{}]*?\{[^{}]*?\}[^{}]*?|[^{}]*?)\}/g;
 
-  let match;
-  while ((match = tableRegex.exec(block)) !== null) {
-    const rawSlot = match[1].toLowerCase();
+  let tableMatch;
+  while ((tableMatch = tableRegex.exec(block)) !== null) {
+    const rawSlot = tableMatch[1].toLowerCase();
     if (['name', 'augments', 'path', 'rank'].includes(rawSlot)) continue;
 
     const slot = SLOT_MAP[rawSlot] || rawSlot;
-    const content = match[2];
+    const content = tableMatch[2];
 
     const nameMatch = content.match(/name\s*=\s*(["'])(.*?)\1/);
     if (nameMatch) {
@@ -158,26 +158,28 @@ function parseGearBlock(block: string): GearSet {
 
   // 2. Parse Simple Strings: slot="Item Name"
   const stringRegex = /([\w\d_]+)\s*=\s*(["'])(.*?)\2/g;
-  while ((match = stringRegex.exec(block)) !== null) {
-    const slotName = match[1].toLowerCase();
+  let stringMatch;
+  while ((stringMatch = stringRegex.exec(block)) !== null) {
+    const slotName = stringMatch[1].toLowerCase();
     const slot = SLOT_MAP[slotName] || slotName;
 
     // Skip if it's a property or already filled by a table
     if (!gear[slot] && !['name', 'path', 'augments'].includes(slot)) {
-      gear[slot] = match[3].trim();
+      gear[slot] = stringMatch[3].trim();
     }
   }
 
   // 3. Parse Variables: slot=Variable.Name
-  const variableRegex = /([\w\d_]+)\s*=\s*([a-zA-Z_][\w\d_\.]*)/g;
-  while ((match = variableRegex.exec(block)) !== null) {
-    const slotName = match[1].toLowerCase();
+  const variableRegex = /([\w\d_]+)\s*=\s*([a-zA-Z_][\w\d_.]*)/g;
+  let varMatch;
+  while ((varMatch = variableRegex.exec(block)) !== null) {
+    const slotName = varMatch[1].toLowerCase();
     const slot = SLOT_MAP[slotName] || slotName;
-    const value = match[2].trim();
+    const value = varMatch[2].trim();
 
     // Only handle if this slot hasn't been filled yet and doesn't look like a keyword/value
     if (!gear[slot] && !['name', 'path', 'augments', 'true', 'false', 'nil'].includes(value.toLowerCase())) {
-      gear[slot] = { name: value, isVariable: true };
+      gear[slot] = { name: value, isVariable: true } as EquippedItem;
     }
   }
 

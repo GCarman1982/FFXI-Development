@@ -42,7 +42,7 @@ function createWindow() {
     warn(msg: string) { logToClient('WARN', msg); },
     error(msg: string) { logToClient('ERROR', msg); },
     debug(msg: string) { logToClient('DEBUG', msg); }
-  } as any;
+  };
 
   // Check for updates once the window is created
   if (!process.env.VITE_DEV_SERVER_URL) {

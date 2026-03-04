@@ -8,7 +8,7 @@ import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { parseGearPath } from "@/lib/utils";
 
 export function GearGrid() {
-  const { activeTab, removeSet, clearSet } = useGearStore();
+  const { activeTab, removeSet, clearSet, allSets, setActiveTab } = useGearStore();
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   const SLOTS = [
@@ -93,8 +93,6 @@ export function GearGrid() {
           </h3>
           <div className="flex flex-wrap gap-2 mb-4">
             {(() => {
-              const { allSets, setActiveTab } = useGearStore();
-
               // 1. Find the "True Base" of the active tab
               const getBaseSetPath = (path: string) => {
                 const parts = path.split('.');

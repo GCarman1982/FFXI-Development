@@ -25,16 +25,13 @@ export function DeleteConfirmDialog({
         {/* FIX: We move centering logic here using flex. 
           This keeps the content pixel-perfect and prevents the blur.
         */}
-        <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+        <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200]" />
 
+        <div className="fixed inset-0 z-[201] flex items-center justify-center pointer-events-none p-4 w-screen h-screen">
           <Dialog.Content
-            /* REMOVED: translate-x and translate-y (the cause of the blur)
-               KEEP: ff-window and width constraints
-            */
-            className="relative ff-window p-6 w-full max-w-[350px] space-y-4 shadow-2xl outline-none"
+            className="relative ff-window p-6 w-full max-w-[350px] space-y-4 shadow-2xl outline-none pointer-events-auto"
             data-critical={isPurge}
-            // Explicitly force hardware acceleration without translation to keep text sharp
-            style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+            style={{ transform: 'none', backfaceVisibility: 'hidden' }}
           >
             {/* Header Section */}
             <div className="flex justify-between items-center text-red-500">
@@ -86,8 +83,8 @@ export function DeleteConfirmDialog({
               </Button>
             </div>
           </Dialog.Content>
-        </Dialog.Overlay>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </div>
+      </Dialog.Portal >
+    </Dialog.Root >
   );
 }
