@@ -1,5 +1,5 @@
 # GearSwap Studio
-![Build Status](https://github.com/GCarman1982/Development/actions/workflows/gearswap-ui.yml/badge.svg)
+![Build Status](https://github.com/Quishwar/Development/actions/workflows/gearswap-ui.yml/badge.svg)
 
 GearSwap Studio is a modern, standalone desktop application designed to simplify the creation and management of GearSwap files for Final Fantasy XI (FFXI). It provides a sleek, visual, and interactive way to build gear sets, manage complex job-specific equipment configurations, and seamlessly export your setups directly into functional, ready-to-use Lua scripts—no coding experience necessary.
 
